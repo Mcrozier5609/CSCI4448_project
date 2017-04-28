@@ -11,7 +11,7 @@ public class Staff extends User{
         title = t;
     }
 
-    public void acceptRequest(AdoptionRequest){}
+    public void acceptRequest(AdoptionRequest request){}
 
-    public void denyRequest(AdoptionRequest){}
+    public void denyRequest(AdoptionRequest request){}
 }

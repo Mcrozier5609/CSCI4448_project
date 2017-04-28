@@ -9,6 +9,10 @@ public class Customer extends User{
     public String phoneNumber;
     public String email;
 
+    public Customer () {
+
+    }
+
     public Customer(String add, String phone, String mail){
         address = add;
         phoneNumber = phone;
