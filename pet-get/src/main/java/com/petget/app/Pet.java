@@ -3,7 +3,7 @@ package com.petget.app;
 /**
  * Created by Michael on 4/27/2017.
  */
-public class Pet {
+public class Pet implements PetFactory{
     int id;
     String nickname;
     int weight;
@@ -18,6 +18,11 @@ public class Pet {
 
     public Pet(int id, String nickname, int weight, String color) {
 
+    }
+
+    public Pet createPet() {
+        Pet tempDoggo = new Pet();
+        return tempDoggo;
     }
 
     boolean isAdoptable() {
