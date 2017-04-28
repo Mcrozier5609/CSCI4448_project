@@ -10,6 +10,11 @@ public class User {
 
     private String password;
 
+    public User(int iDNumber, String n){
+        id = iDNumber;
+        name = n;
+    }
+
     public boolean testPassword(String test){}
 
 
