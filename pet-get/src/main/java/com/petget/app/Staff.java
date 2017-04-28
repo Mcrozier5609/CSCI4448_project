@@ -3,7 +3,7 @@ package com.petget.app;
 /**
  * Created by Hunter on 4/27/2017.
  */
-public class Staff {
+public class Staff extends User{
 
     public String title;
 
