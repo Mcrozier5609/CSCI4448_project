@@ -3,7 +3,7 @@ package com.petget.app;
 import java.sql.Timestamp;
 
 /**
- * Created by Michael on 4/27/2017.
+ * Created by Michael Crozier on 4/27/2017.
  */
 public class AdoptionRequest {
     int id;
@@ -17,6 +17,6 @@ public class AdoptionRequest {
     }
 
     public void remindStaff() {
-        
+
     }
 }
