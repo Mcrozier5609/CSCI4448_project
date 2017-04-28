@@ -3,7 +3,7 @@ package com.petget.app;
 /**
  * Created by Hunter on 4/27/2017.
  */
-public class Customer {
+public class Customer extends User{
 
     public String address;
     public String phoneNumber;
