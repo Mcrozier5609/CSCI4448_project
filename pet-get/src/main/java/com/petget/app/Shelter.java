@@ -9,15 +9,23 @@ public class Shelter {
     public AdoptionRequest[] requests = new AdoptionRequest[50];
 
 
-    public Pet addPet(Pet p){}
+    public Pet addPet(Pet p){
+        return p;
+    }
 
-    public Pet remove(Pet p){}
+    public Pet remove(Pet p){
+        return p;
+    }
 
-    public Pet[] getAllPets(){}
+    public Pet[] getAllPets(){
+        return pets;
+    }
 
     public void addRequest(AdoptionRequest ar){}
 
-    public AdoptionRequest getRequests(){}
+    public AdoptionRequest[] getRequests(){
+        return requests;
+    }
 
     public void addAppointment(Appointment a){}
 

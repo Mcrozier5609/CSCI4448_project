@@ -10,12 +10,19 @@ public class User {
 
     private String password;
 
+    public User(){
+        id = 0;
+        name = "0";
+    }
+
     public User(int iDNumber, String n){
         id = iDNumber;
         name = n;
     }
 
-    public boolean testPassword(String test){}
+    public boolean testPassword(String test){
+        return true;
+    }
 
 
 
