@@ -7,10 +7,18 @@ import java.sql.Timestamp;
  */
 public class AdoptionRequest {
     int id;
-    Timestamp dateRequested;
-    Timestamp duration;
+    int dateRequested; //timestamps later
+    int duration;
     boolean accepted;
-    Timestamp decisionTime;
+    int decisionTime;
+
+    public AdoptionRequest(int i) {
+        id = i;
+        dateRequested = 0;
+        duration = 0;
+        accepted = false;
+        decisionTime = 0;
+    }
 
     public void remindCustomer(){
 
