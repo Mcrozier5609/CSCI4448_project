@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pet Get</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="/">Home</a></li>
+            <li role="presentation"><a href="/login.html">Login</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">PetGet</h3>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-12">
+          <a href="/pets/dog">
+            <img alt="dog" src="https://images-na.ssl-images-amazon.com/images/G/01/img15/pet-products/small-tiles/23695_pets_vertical_store_dogs_small_tile_8._CB312176604_.jpg" class="petItem">
+          </a>
+          <h4>{{Name}}</h4>
+          <p>{{Description}}</p>
+          <p><a href="/pets/adopt/{{id}}">Adopt {{Name}}</a> | <a href="/pets/view/{{id}}">Visit {{Name}}</a></p>
+        </div>
+
+        <div class="col-lg-12">
+          <h4>Snakes</h4>
+          <a href="/pets/snake">
+            <img alt="snake" src="http://petful.supercopyeditors.netdna-cdn.com/wp-content/uploads/2011/11/pet-snake-skin-problems.png">
+        </a>
+          <p>Snakes love to eat, just like you! Slither into adoption with one of the bests pets there is!</p>
+          <p><a href="/pets/snake">View Snakes</a></p>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>2017 PetGet</p>
+      </footer>
+
+    </div> <!-- /container -->
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+</body>
+</html>

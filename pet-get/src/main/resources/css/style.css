@@ -57,6 +57,10 @@ body {
   margin: 0 0 10px 0;
 }
 
+.petItem {
+  width: 200px;
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
