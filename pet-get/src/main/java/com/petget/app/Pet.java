@@ -16,8 +16,11 @@ public class Pet extends PetFactory{
         color = "0";
     }
 
-    public Pet(int id, String nickname, int weight, String color) {
-
+    public Pet(int i, String name, int w, String c) {
+        id = i;
+        nickname = name;
+        weight = w;
+        color = c;
     }
 
     public Pet createPet() {
