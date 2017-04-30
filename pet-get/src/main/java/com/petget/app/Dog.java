@@ -11,8 +11,11 @@ public class Dog extends Pet {
     int length;
     String species;
 
-    public Dog() {
-
+    public Dog(String name, int w, String c, int i) {
+        nickname = name;
+        weight = w;
+        color = c;
+        id = i;
     }
 
     public boolean isAdoptable() {

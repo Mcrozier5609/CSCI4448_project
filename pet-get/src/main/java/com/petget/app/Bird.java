@@ -11,8 +11,11 @@ public class Bird extends Pet{
     int height;
     String species;
 
-    public Bird(){
-
+    public Bird(String name, int w, String c, int i){
+        nickname = name;
+        weight = w;
+        color = c;
+        id = i;
     }
 
     public boolean isAdopted() {

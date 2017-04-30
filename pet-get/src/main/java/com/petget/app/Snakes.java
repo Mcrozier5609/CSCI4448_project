@@ -8,8 +8,11 @@ public class Snakes extends Pet {
     boolean poisonous;
     String species;
 
-    public Snakes() {
-
+    public Snakes(String name, int w, String c, int i) {
+        nickname = name;
+        weight = w;
+        color = c;
+        id = i;
     }
 
     public boolean isAdoptable() {

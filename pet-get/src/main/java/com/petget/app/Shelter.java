@@ -1,5 +1,7 @@
 package com.petget.app;
 
+import java.sql.*;
+
 /**
  * Created by Hunter on 4/27/2017.
  */
@@ -7,10 +9,12 @@ public class Shelter {
 
     public Pet[] pets = new Pet[100];
     public AdoptionRequest[] requests = new AdoptionRequest[50];
+    int id = 0;
 
-
-    public Pet addPet(Pet p){
-        pets[p.id] = p;
+    public Pet addPet(String type, String name, int weight, String color){
+        Pet p = PetFactory.createPet(type, name, weight, color, id);
+        pets[id] = p;
+        id++;
         return p;
     }
 
