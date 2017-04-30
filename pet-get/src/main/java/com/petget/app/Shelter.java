@@ -34,19 +34,6 @@ public class Shelter {
                 String.format("VALUES (%d, '%s', %d, '%s')", id, name, weight, color);
             stmt.executeUpdate(sql);
 
-//            while(rs.next()){
-//                int i = rs.getInt("id");
-//                String n = rs.getString("nickname");
-//                int w = rs.getInt("weight");
-//                String c = rs.getString("color");
-//
-//                System.out.print("ID " + i);
-//                System.out.print(", Name: " + n);
-//                System.out.print(", Weight: " + w);
-//                System.out.print(", Color: " + c);
-//            }
-//
-//            rs.close();
             stmt.close();
             conn.close();
         }
@@ -71,10 +58,44 @@ public class Shelter {
         return p;
     }
 
-    public Pet remove(Pet p){
+    public int remove(int id){
+
         Pet nullPet = new Pet();
-        pets[p.id] = nullPet;
-        return p;
+        pets[id] = nullPet;
+        Connection conn = null;
+        Statement stmt = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
+            String sql = "DELETE FROM pets " +
+                    String.format("WHERE id = %d", id);
+            stmt.executeUpdate(sql);
+
+            stmt.close();
+            conn.close();
+        }
+        catch(SQLException se){
+            se.printStackTrace();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }finally{
+            try{
+                if(stmt != null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }
+            try{
+                if(conn != null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+        return id;
     }
 
     public Pet[] getAllPets(){

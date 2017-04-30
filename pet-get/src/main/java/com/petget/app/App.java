@@ -13,7 +13,10 @@ public class App {
 
     public static void main(String[] args) {
         Shelter s = new Shelter();
-        s.addPet("Bird", "Donny",2, "Blue");
+
+        s.addPet("Bird", "Donny", 2, "blue");
+        s.addPet("Dog", "Dav", 3, "boyo");
+        s.remove(1);
 
         Connection conn = null;
         Statement stmt = null;
