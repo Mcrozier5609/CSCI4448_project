@@ -3,7 +3,7 @@ package com.petget.app;
 /**
  * Created by Michael Crozier on 4/27/2017.
  */
-public class Pet implements PetFactory{
+public class Pet extends PetFactory{
     int id;
     String nickname;
     int weight;
