@@ -5,13 +5,16 @@ import java.sql.*;
 public class App {
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/EMP";
+    static final String DB_URL = "jdbc:mysql://localhost/animals";
 
     //  Database credentials
     static final String USER = "root";
     static final String PASS = "password";
 
     public static void main(String[] args) {
+        Shelter s = new Shelter();
+        s.addPet("Bird", "Donny",2, "Blue");
+
         Connection conn = null;
         Statement stmt = null;
         try{
@@ -26,22 +29,22 @@ public class App {
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT id, first, last, age FROM Employees";
+            sql = "SELECT id, nickname, weight, color FROM pets";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
             while(rs.next()){
                 //Retrieve by column name
                 int id  = rs.getInt("id");
-                int age = rs.getInt("age");
-                String first = rs.getString("first");
-                String last = rs.getString("last");
+                String n = rs.getString("nickname");
+                int w = rs.getInt("weight");
+                String c = rs.getString("color");
 
                 //Display values
                 System.out.print("ID: " + id);
-                System.out.print(", Age: " + age);
-                System.out.print(", First: " + first);
-                System.out.println(", Last: " + last);
+                System.out.print(", Name: " + n);
+                System.out.print(", Weight: " + w);
+                System.out.println(", Color: " + c);
             }
             //STEP 6: Clean-up environment
             rs.close();
@@ -69,21 +72,21 @@ public class App {
         }//end try
         System.out.println("Goodbye!");
 
-        get("/", (req, res) -> renderContent("index.html"));
+     //   get("/", (req, res) -> renderContent("index.html"));
     }
 
-    private String renderContent(String htmlFile) {
-        try {
-            //get the url class resource
-            URL url = getClass().getResource(htmlFile);
+    //private String renderContent(String htmlFile) {
+    //    try {
+    //        //get the url class resource
+    //        URL url = getClass().getResource(htmlFile);
 
             // Return a String which has all
             // the contents of the file.
-            Path path = Paths.get(url.toURI());
-            return new String(Files.readAllBytes(path), Charset.defaultCharset());
-        } catch (IOException | URISyntaxException e) {
+    //        Path path = Paths.get(url.toURI());
+    //        return new String(Files.readAllBytes(path), Charset.defaultCharset());
+    //    } catch (IOException | URISyntaxException e) {
             // Add your own exception handlers here.
-        }
-        return null;
-    }
+    //    }
+    //    return null;
+    //}
 }
