@@ -2,6 +2,7 @@ package com.petget.app;
 import java.security.MessageDigest;
 import java.nio.charset.StandardCharsets;
 import javax.xml.bind.DatatypeConverter;
+import java.sql.*;
 
 public class User {
 
@@ -13,94 +14,166 @@ public class User {
     static final String USER = "root";
     static final String PASS = "";
 
-    public int id;
     public String email;
+    public String first_name;
 
     private String password_hash;
 
     public User(){
-        id = 0;
         email = "self@test.com";
+        first_name = "";
+        password_hash = null;
     }
 
-    public User(String email, String password){
+    public String getPasswordHash() {
+        return this.password_hash;
+    }
+
+    public User(String email) {
         this.email = email;
 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
+            stmt = conn.prepareStatement("SELECT first_name, password FROM users WHERE email=?");
+            stmt.setString(1, this.email);
+            ResultSet rs = stmt.executeQuery();
 
-//        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-//        String pass_hash = DatatypeConverter.printHexBinary(hash);
+            while(rs.next()){
+                //Retrieve by column name
+                this.first_name = rs.getString("first_name");
+                this.password_hash = rs.getString("password");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
 
-        //        Shelter s = new Shelter();
-//
-//        s.addPet("Bird", "Donny", 2, "blue");
-//        s.addPet("Dog", "Dav", 3, "boyo");
-//        s.remove(1);
-//
-//        Connection conn = null;
-//        Statement stmt = null;
-//        try{
-//            //STEP 2: Register JDBC driver
-//            Class.forName("com.mysql.jdbc.Driver");
-//
-//            //STEP 3: Open a connection
-//            System.out.println("Connecting to database...");
-//            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-//
-//            //STEP 4: Execute a query
-//            System.out.println("Creating statement...");
-//            stmt = conn.createStatement();
-//            String sql;
-//            sql = "SELECT id, nickname, weight, color FROM pets";
-//            ResultSet rs = stmt.executeQuery(sql);
-//
-//            //STEP 5: Extract data from result set
-//            while(rs.next()){
-//                //Retrieve by column name
-//                int id  = rs.getInt("id");
-//                String n = rs.getString("nickname");
-//                int w = rs.getInt("weight");
-//                String c = rs.getString("color");
-//
-//                //Display values
-//                System.out.print("ID: " + id);
-//                System.out.print(", Name: " + n);
-//                System.out.print(", Weight: " + w);
-//                System.out.println(", Color: " + c);
-//            }
-//            //STEP 6: Clean-up environment
-//            rs.close();
-//            stmt.close();
-//            conn.close();
-//        }catch(SQLException se){
-//            //Handle errors for JDBC
-//            se.printStackTrace();
-//        }catch(Exception e){
-//            //Handle errors for Class.forName
-//            e.printStackTrace();
-//        }finally{
-//            //finally block used to close resources
-//            try{
-//                if(stmt!=null)
-//                    stmt.close();
-//            }catch(SQLException se2){
-//            }// nothing we can do
-//            try{
-//                if(conn!=null)
-//                    conn.close();
-//            }catch(SQLException se){
-//                se.printStackTrace();
-//            }//end finally try
-//        }//end try
-//        System.out.println("Goodbye!");
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+    }
+
+    public User(String email, String first_name, String raw_password){
+        this.email = email;
+        this.password_hash = this.hashPassword(raw_password);
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.prepareStatement("INSERT INTO users(email, first_name, password) VALUES(?, ?, ?)");
+            stmt.setString(1, this.email);
+            stmt.setString(2, this.first_name);
+            stmt.setString(3, this.password_hash);
+            stmt.execute();
+            stmt.close();
+            conn.close();
+
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+    }
+
+    public String hashPassword(String raw_password) {
+        return org.apache.commons.codec.digest.DigestUtils.sha256Hex(raw_password);
 
     }
 
-    public boolean testPassword(String test){
-        return true;
+    public boolean testPassword(String raw_password){
+
+        //if the user object already has a password hash check it first before we access the database
+        if (this.password_hash != null) {
+            if(this.hashPassword(raw_password) == this.password_hash) {
+                return true;
+            }
+        }
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            //STEP 4: Execute a query
+            stmt = conn.prepareStatement("SELECT password FROM users WHERE email=?");
+            stmt.setString(1, this.email);
+            ResultSet rs = stmt.executeQuery();
+
+            String db_password = null;
+            while(rs.next()){
+                //Retrieve by column name
+                db_password = rs.getString("password");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+
+            String hashed_input_password = this.hashPassword(raw_password);
+
+            if(hashed_input_password.equals(db_password)) {
+                return true;
+            }
+            return false;
+
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return false;
     }
-
-
-
 }

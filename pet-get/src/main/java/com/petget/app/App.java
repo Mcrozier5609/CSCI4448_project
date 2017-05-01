@@ -70,9 +70,21 @@ public class App {
         });
         post("/login/process", (req, res) -> {
             String email = req.queryParams("email");
-            String password = req.queryParams("password");
+            String raw_password = req.queryParams("password");
 
-            return  req.queryParams("email");
+            User login_user = new User(email);
+
+            if(login_user.getPasswordHash() == null) {
+                return "User does not exist";
+            }
+
+            if(login_user.testPassword(raw_password) == true) {
+                req.session().attribute("id", login_user.email);
+                res.redirect("/pets");
+                return "";
+            }
+            return "Invalid password for user";
+
         });
         get("/pets", (req, res) -> {
             set("title", "Pets");
@@ -83,7 +95,7 @@ public class App {
                 return "";
             }
 
-            return render("pets_login.html", settings);
+            return render("pets.html", settings);
         });
 
     }
