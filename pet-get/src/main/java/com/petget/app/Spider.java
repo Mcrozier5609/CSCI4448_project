@@ -7,12 +7,14 @@ public class Spider extends Pet {
     int diameter;
     String species;
     boolean poisonous;
+    String url;
 
-    public Spider(String name, int w, String c, int i) {
+    public Spider(String name, int w, String c, int i, String u) {
         nickname = name;
         weight = w;
         color = c;
-        id = i;
+        id = id;
+        url = u;
     }
 
     public boolean isAdoptable(){

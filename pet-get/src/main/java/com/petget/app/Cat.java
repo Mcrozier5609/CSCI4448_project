@@ -10,12 +10,14 @@ public class Cat extends Pet {
     int length;
     String temperment;
     String species;
+    String url;
 
-    public Cat(String name, int w, String c, int i) {
+    public Cat(String name, int w, String c, int i, String u) {
         nickname = name;
         weight = w;
         color = c;
         id = i;
+        url = u;
     }
 
     public boolean isAdoptable() {

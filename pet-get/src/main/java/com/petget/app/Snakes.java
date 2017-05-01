@@ -7,12 +7,14 @@ public class Snakes extends Pet {
     int length;
     boolean poisonous;
     String species;
+    String url;
 
-    public Snakes(String name, int w, String c, int i) {
+    public Snakes(String name, int w, String c, int i, String u) {
         nickname = name;
         weight = w;
         color = c;
         id = i;
+        url = u;
     }
 
     public boolean isAdoptable() {
