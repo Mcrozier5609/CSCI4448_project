@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pet Get - Pets</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="/">Home</a></li>
+                <li role="presentation" class="active"><a href="/pets">Pets</a></li>
+            </ul>
+        </nav>
+        <h3 class="text-muted">PetGet</h3>
+    </div>
+    <div class="row marketing" id="pet_holder">
+
+    </div>
+
+    <footer class="footer">
+        <p>2017 PetGet</p>
+    </footer>
+
+</div> <!-- /container -->
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    let petList = JSON.parse($('<div/>').html("{{petList}}").text())
+
+    let small_petList = [];
+
+    for(let i = 0; i < petList.length; i++) {
+        if(petList[i] != null) {
+            small_petList = small_petList.concat(petList[i])
+        }
+    }
+    let div_layout = `
+    <div class="col-lg-12 pet_view">
+            <a href="/pets/{_pet_id_}">
+                <img alt="dog" src="{_pet_img_}" class="petItem">
+            </a>
+            <h4>{_pet_name_}</h4>
+            <p>{_pet_name_} is awesome. {_pet_name_} is {_pet_color_} and weighs {_pet_weight_} lbs.</p>
+            <p><a href="/pets/adopt/{_pet_id_}">Adopt {_pet_name_}</a> | <a href="/pets/view/{_pet_id_}">Visit {_pet_name_}</a></p>
+        </div>
+     `
+
+    for(let i = 0; i < small_petList.length; i++) {
+        let current_pet = small_petList[i]
+        let output = div_layout.replace(/{_pet_name_}/g, current_pet.nickname)
+                               .replace(/{_pet_color_}/g, current_pet.color)
+                               .replace(/{_pet_id_}/g, current_pet.id)
+                               .replace(/{_pet_weight_}/g, current_pet.weight)
+                               .replace(/{_pet_img_}/g, current_pet.url)
+        let current_html = $("#pet_holder").html()
+        $("#pet_holder").html(current_html + output)
+    }
+    </script>
+</body>
+</html>

@@ -31,7 +31,7 @@ public class Shelter {
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql = "INSERT INTO pets " +
-                String.format("VALUES (%d, '%s', '%s', %d, '%s')", id, type, name, weight, color);
+                String.format("VALUES (%d, '%s', '%s', %d, '%s', '%s')", id, type, name, weight, color, url);
             stmt.executeUpdate(sql);
 
             stmt.close();
@@ -112,10 +112,9 @@ public class Shelter {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
             //building the sql query
-            System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT id, type, nickname, weight, color FROM pets";
+            sql = "SELECT id, type, nickname, weight, color, imageURL FROM pets";
             ResultSet rs = stmt.executeQuery(sql);
 
             //getting the data
