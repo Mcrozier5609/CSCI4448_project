@@ -9,6 +9,7 @@ import spark.template.handlebars.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+
 public class App {
     public static String dataToJson(Object data) {
         Gson gson = new Gson();
