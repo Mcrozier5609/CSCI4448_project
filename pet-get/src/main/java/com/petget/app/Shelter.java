@@ -12,10 +12,10 @@ public class Shelter {
     int id = 0;
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/animals";
+    static final String DB_URL = "jdbc:mysql://localhost/animals?useSSL=false";
 
     static final String USER = "root";
-    static final String PASS = "password";
+    static final String PASS = "";
 
     public Pet addPet(String type, String name, int weight, String color){
         Pet p = PetFactory.createPet(type, name, weight, color, id);
