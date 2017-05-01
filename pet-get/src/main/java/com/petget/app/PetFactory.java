@@ -16,7 +16,7 @@ public class PetFactory {
         } else if(type.equals("Cat")){
             p = new Cat(name, weight, color, id);
 
-        } else if(type.equals("Snakes")){
+        } else if(type.equals("Snake")){
             p = new Snakes(name, weight, color, id);
 
         } else if(type.equals("Hamster")){
