@@ -6,7 +6,15 @@ import java.util.HashMap;
 import spark.ModelAndView;
 import spark.template.handlebars.*;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 public class App {
+    public static String dataToJson(Object data) {
+        Gson gson = new Gson();
+        return gson.toJson(data);
+    }
+
     public static void main(String[] args) {
         port(8000);
         staticFileLocation("/");
@@ -70,6 +78,12 @@ public class App {
                 return new ModelAndView(null, null);
             }
 
+            Shelter db_shelter = new Shelter();
+            Pet[] pet_list = db_shelter.getAllPets();
+            System.out.println("hit here");
+
+            template_map.put("petList", dataToJson(pet_list));
+            System.out.println("here too");
 
             return new ModelAndView(template_map, "petList.html");
         }, new HandlebarsTemplateEngine());

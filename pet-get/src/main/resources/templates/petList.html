@@ -16,24 +16,8 @@
         </nav>
         <h3 class="text-muted">PetGet</h3>
     </div>
+    <div class="row marketing" id="pet_holder">
 
-    <div class="row marketing">
-        <div class="col-lg-12">
-            <a href="/pets/dog">
-                <img alt="dog" src="https://images-na.ssl-images-amazon.com/images/G/01/img15/pet-products/small-tiles/23695_pets_vertical_store_dogs_small_tile_8._CB312176604_.jpg" class="petItem">
-            </a>
-            <h4>{{Name}}</h4>
-            <p>{{Description}}</p>
-            <p><a href="/pets/adopt/{{id}}">Adopt {{Name}}</a> | <a href="/pets/view/{{id}}">Visit {{Name}}</a></p>
-        </div>
-        <div class="col-lg-12">
-            <h4>Snakes</h4>
-            <a href="/pets/snake">
-                <img alt="snake" src="http://petful.supercopyeditors.netdna-cdn.com/wp-content/uploads/2011/11/pet-snake-skin-problems.png">
-            </a>
-            <p>Snakes love to eat, just like you! Slither into adoption with one of the bests pets there is!</p>
-            <p><a href="/pets/snake">View Snakes</a></p>
-        </div>
     </div>
 
     <footer class="footer">
@@ -42,5 +26,37 @@
 
 </div> <!-- /container -->
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    let petList = JSON.parse($('<div/>').html("{{petList}}").text())
+
+    let small_petList = [];
+
+    for(let i = 0; i < petList.length; i++) {
+        if(petList[i] != null) {
+            small_petList = small_petList.concat(petList[i])
+        }
+    }
+    let div_layout = `
+    <div class="col-lg-12 pet_view">
+            <a href="/pets/{_pet_id_}">
+                <img alt="dog" src="{_pet_img_}" class="petItem">
+            </a>
+            <h4>{_pet_name_}</h4>
+            <p>{_pet_name_} is awesome. {_pet_name_} is {_pet_color_} and weighs {_pet_weight_} lbs.</p>
+            <p><a href="/pets/adopt/{_pet_id_}">Adopt {_pet_name_}</a> | <a href="/pets/view/{_pet_id_}">Visit {_pet_name_}</a></p>
+        </div>
+     `
+
+    for(let i = 0; i < small_petList.length; i++) {
+        let current_pet = small_petList[i]
+        let output = div_layout.replace(/{_pet_name_}/g, current_pet.nickname)
+                               .replace(/{_pet_color_}/g, current_pet.color)
+                               .replace(/{_pet_id_}/g, current_pet.id)
+                               .replace(/{_pet_weight_}/g, current_pet.weight)
+                               .replace(/{_pet_img_}/g, current_pet.url)
+        let current_html = $("#pet_holder").html()
+        $("#pet_holder").html(current_html + output)
+    }
+    </script>
 </body>
 </html>
