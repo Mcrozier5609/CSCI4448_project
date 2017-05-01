@@ -14,9 +14,8 @@ public class App {
     public static void main(String[] args) {
         Shelter s = new Shelter();
 
-        s.addPet("Bird", "Donny", 2, "blue");
-        s.addPet("Dog", "Dav", 3, "boyo");
-        s.remove(1);
+        //s.addPet("Bird", "Donny", 2, "blue");
+        //s.remove(2);
 
         Connection conn = null;
         Statement stmt = null;
