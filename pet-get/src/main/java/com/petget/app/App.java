@@ -1,95 +1,90 @@
 package com.petget.app;
 
 import java.sql.*;
+import static spark.Spark.*;
+import java.io.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class App {
-    // JDBC driver name and database URL
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/animals";
+    private static final Map<String, Object> settings = new HashMap<String, Object>();
 
-    //  Database credentials
-    static final String USER = "root";
-    static final String PASS = "password";
-
-    public static void main(String[] args) {
-        Shelter s = new Shelter();
-
-        s.addPet("Bird", "Donny", 2, "blue");
-        s.addPet("Dog", "Dav", 3, "boyo");
-        s.remove(1);
-
-        Connection conn = null;
-        Statement stmt = null;
-        try{
-            //STEP 2: Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-
-            //STEP 3: Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT id, nickname, weight, color FROM pets";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            //STEP 5: Extract data from result set
-            while(rs.next()){
-                //Retrieve by column name
-                int id  = rs.getInt("id");
-                String n = rs.getString("nickname");
-                int w = rs.getInt("weight");
-                String c = rs.getString("color");
-
-                //Display values
-                System.out.print("ID: " + id);
-                System.out.print(", Name: " + n);
-                System.out.print(", Weight: " + w);
-                System.out.println(", Color: " + c);
-            }
-            //STEP 6: Clean-up environment
-            rs.close();
-            stmt.close();
-            conn.close();
-        }catch(SQLException se){
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }catch(Exception e){
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        }finally{
-            //finally block used to close resources
-            try{
-                if(stmt!=null)
-                    stmt.close();
-            }catch(SQLException se2){
-            }// nothing we can do
-            try{
-                if(conn!=null)
-                    conn.close();
-            }catch(SQLException se){
-                se.printStackTrace();
-            }//end finally try
-        }//end try
-        System.out.println("Goodbye!");
-
-     //   get("/", (req, res) -> renderContent("index.html"));
+    public static String parse(String pattern, String text, Map<String, Object> locals) {
+        Matcher regexp = Pattern.compile(pattern).matcher(text);
+        while (regexp.find()) {
+            text = regexp.replaceFirst(locals.get(regexp.group(1)).toString());
+        }
+        return text;
     }
 
-    //private String renderContent(String htmlFile) {
-    //    try {
-    //        //get the url class resource
-    //        URL url = getClass().getResource(htmlFile);
+    private static String parseFile(String file, String pattern, Map<String, Object> locals) {
+        StringBuffer content = new StringBuffer("");
+        try {
+            BufferedReader buffer = new BufferedReader(new FileReader(file));
+            String line = null;
 
-            // Return a String which has all
-            // the contents of the file.
-    //        Path path = Paths.get(url.toURI());
-    //        return new String(Files.readAllBytes(path), Charset.defaultCharset());
-    //    } catch (IOException | URISyntaxException e) {
-            // Add your own exception handlers here.
-    //    }
-    //    return null;
-    //}
+            while ((line = buffer.readLine()) != null) {
+                content.append(parse(pattern, line, locals) + "\n");
+            }
+
+            buffer.close();
+        }
+        catch (Exception exception) {
+            System.out.printf("ERROR: %s\n", exception.getMessage());
+        }
+        finally {
+            return content.toString();
+        }
+    }
+
+    public static String render(String file, Map<String, Object> locals) {
+        return layout(file, parseFile(("src/main/resources/" + file), "\\{\\{(.*?)\\}\\}", locals));
+    }
+
+    public static String layout(String file, String content) {
+        HashMap<String, Object> layout = new HashMap<String, Object>();
+        layout.put("content", content);
+        return parseFile("src/main/resources/layout.html", "\\{\\{(content)\\}\\}", layout);
+    }
+
+    public static void set(String key, Object value) {
+        settings.put(key, (String) value);
+    }
+
+    public static Object settings(String key) {
+        return settings.get(key);
+    }
+
+    public static void main(String[] args) {
+        port(8000);
+        staticFileLocation("/");
+        get("/", (req, res) -> {
+                set("title", "Home");
+                return render("index.html", settings);
+        });
+        get("/login", (req, res) -> {
+            set("title", "Login");
+            return render("login.html", settings);
+        });
+        post("/login/process", (req, res) -> {
+            String email = req.queryParams("email");
+            String password = req.queryParams("password");
+
+            return  req.queryParams("email");
+        });
+        get("/pets", (req, res) -> {
+            set("title", "Pets");
+            String session_id = req.session().attribute("id");
+
+            if (session_id == null) {
+                res.redirect("/login");
+                return "";
+            }
+
+            return render("pets_login.html", settings);
+        });
+
+    }
 }
