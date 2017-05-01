@@ -57,6 +57,7 @@ public class App {
         return settings.get(key);
     }
 
+
     public static void main(String[] args) {
         port(8000);
         staticFileLocation("/");
@@ -66,6 +67,13 @@ public class App {
         });
         get("/login", (req, res) -> {
             set("title", "Login");
+            String session_id = req.session().attribute("id");
+
+            if (session_id != null) {
+                res.redirect("/pets");
+                return "";
+            }
+
             return render("login.html", settings);
         });
         post("/login/process", (req, res) -> {
@@ -78,7 +86,7 @@ public class App {
                 return "User does not exist";
             }
 
-            if(login_user.testPassword(raw_password) == true) {
+            if(login_user.testPassword(raw_password)) {
                 req.session().attribute("id", login_user.email);
                 res.redirect("/pets");
                 return "";
