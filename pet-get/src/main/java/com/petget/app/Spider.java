@@ -7,7 +7,6 @@ public class Spider extends Pet {
     int diameter;
     String species;
     boolean poisonous;
-    String url;
 
     public Spider(String name, int w, String c, int i, String u) {
         nickname = name;

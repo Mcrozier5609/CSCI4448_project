@@ -6,7 +6,6 @@ package com.petget.app;
 public class Fish extends Pet {
     boolean freshWater;
     String species;
-    String url;
 
     public Fish(String name, int w, String c, int i, String u) {
         nickname = name;

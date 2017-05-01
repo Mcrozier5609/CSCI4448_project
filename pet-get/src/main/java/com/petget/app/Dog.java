@@ -10,7 +10,6 @@ public class Dog extends Pet {
     String temperment;
     int length;
     String species;
-    String url;
 
     public Dog(String name, int w, String c, int i, String u) {
         nickname = name;

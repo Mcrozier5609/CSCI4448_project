@@ -10,7 +10,6 @@ public class Bird extends Pet{
     String temperment;
     int height;
     String species;
-    String url;
 
     public Bird(String name, int w, String c, int i, String u){
         nickname = name;

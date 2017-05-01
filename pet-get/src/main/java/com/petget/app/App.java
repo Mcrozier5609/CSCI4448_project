@@ -81,10 +81,7 @@ public class App {
 
             Shelter db_shelter = new Shelter();
             Pet[] pet_list = db_shelter.getAllPets();
-            System.out.println("hit here");
-
             template_map.put("petList", dataToJson(pet_list));
-            System.out.println("here too");
 
             return new ModelAndView(template_map, "petList.html");
         }, new HandlebarsTemplateEngine());
