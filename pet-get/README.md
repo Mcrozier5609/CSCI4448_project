@@ -6,5 +6,5 @@
  - Install MySQL
 
 ## Build & Run
-In mySQL do `source buildPetList.sql` using the full buildPetList.sql file path
-`./run.sh`
+- In mySQL do `source buildPetList.sql` using the full buildPetList.sql file path
+- `./run.sh`
