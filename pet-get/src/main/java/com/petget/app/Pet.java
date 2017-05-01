@@ -1,7 +1,10 @@
 package com.petget.app;
 
 
-public class Pet extends PetFactory{
+/**
+ * Created by Michael Crozier on 4/27/2017.
+ */
+public abstract class Pet extends PetFactory{
     int id;
     String nickname;
     int weight;
@@ -21,10 +24,7 @@ public class Pet extends PetFactory{
         color = c;
     }
 
-    public Pet createPet() {
-        Pet tempDoggo = new Pet();
-        return tempDoggo;
-    }
+
 
     boolean isAdoptable() {
         return true;

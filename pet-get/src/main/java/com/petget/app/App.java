@@ -51,6 +51,7 @@ public class App {
 
     public static void set(String key, Object value) {
         settings.put(key, (String) value);
+
     }
 
     public static Object settings(String key) {
