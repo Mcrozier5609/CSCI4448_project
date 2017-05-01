@@ -9,19 +9,22 @@ public class Pet extends PetFactory{
     String nickname;
     int weight;
     String color;
+    String url;
 
     public Pet() {
         id = 0;
         nickname = "0";
         weight = 0;
         color = "0";
+        url = "0";
     }
 
-    public Pet(int i, String name, int w, String c) {
+    public Pet(int i, String name, int w, String c, String u) {
         id = i;
         nickname = name;
         weight = w;
         color = c;
+        url = u;
     }
 
 

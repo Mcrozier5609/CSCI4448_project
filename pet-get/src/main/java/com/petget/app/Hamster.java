@@ -5,12 +5,14 @@ package com.petget.app;
  */
 public class Hamster extends Pet {
     int legs;
+    String url;
 
-    public Hamster(String name, int w, String c, int i) {
+    public Hamster(String name, int w, String c, int i, String u) {
         nickname = name;
         weight = w;
         color = c;
         id = i;
+        url = u;
     }
 
     public boolean isAdoptable() {

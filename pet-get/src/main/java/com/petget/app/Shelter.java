@@ -17,8 +17,8 @@ public class Shelter {
     static final String USER = "root";
     static final String PASS = "";
 
-    public Pet addPet(String type, String name, int weight, String color){
-        Pet p = PetFactory.createPet(type, name, weight, color, id);
+    public Pet addPet(String type, String name, int weight, String color, String url){
+        Pet p = PetFactory.createPet(type, name, weight, color, id, url);
         pets[id] = p;
         id++;
 
@@ -126,6 +126,7 @@ public class Shelter {
                 String n = rs.getString("nickname");
                 int w = rs.getInt("weight");
                 String c = rs.getString("color");
+                String u = rs.getString("imageURL");
 
                 //showing values
                 System.out.print("ID: " + id);
@@ -133,7 +134,7 @@ public class Shelter {
                 System.out.print(", Name: " + n);
                 System.out.print(", Weight: " + w);
                 System.out.println(", Color: " + c);
-                ps[id] = PetFactory.createPet(t, n, w, c, id);
+                ps[id] = PetFactory.createPet(t, n, w, c, id, u);
             }
 
             //finishing up
