@@ -103,7 +103,7 @@ public class App {
                 return "";
             }
 
-            return render("pets.html", settings);
+            return render("petList.html", settings);
         });
 
     }
